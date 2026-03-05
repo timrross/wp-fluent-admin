@@ -319,11 +319,11 @@ The canonical documentation strategy is in `docs-strategy.md`. Follow it precise
 
 Every component page follows the template in `docs-strategy.md`: one-sentence description → Basic Usage with code + rendered HTML → Variants → API Reference table (constructor, methods, filters) → Cookbook recipe → WordPress Reference link.
 
-- [ ] **11.1** Create `docs/components/page.md`, `docs/components/notice.md`, `docs/components/button.md`, `docs/components/button-group.md`. Each follows the component page template. Cross-link related components (Button ↔ ButtonGroup).
-- [ ] **11.2** Create `docs/components/metabox.md`, `docs/components/metabox-container.md`. Show single metabox, collapsible metabox, two-column layout with sidebar.
-- [ ] **11.3** Create `docs/components/tabs.md`, `docs/components/form-table.md`. Tabs page must show URL-based state persistence. FormTable page must show all shortcut methods with examples.
-- [ ] **11.4** Create `docs/components/list-table.md`, `docs/components/data-table.md`. ListTable page must show: basic usage, sortable columns, bulk actions, search box, row actions, custom column rendering. DataTable shows the simpler static alternative.
-- [ ] **11.5** Create `docs/components/spinner.md`, `docs/components/counter.md`, `docs/components/dashicon.md`, `docs/components/card.md`. These are shorter pages — basic usage + API reference is sufficient.
+- [x] **11.1** Create `docs/components/page.md`, `docs/components/notice.md`, `docs/components/button.md`, `docs/components/button-group.md`. Each follows the component page template. Cross-link related components (Button ↔ ButtonGroup).
+- [x] **11.2** Create `docs/components/metabox.md`, `docs/components/metabox-container.md`. Show single metabox, collapsible metabox, two-column layout with sidebar.
+- [x] **11.3** Create `docs/components/tabs.md`, `docs/components/form-table.md`. Tabs page must show URL-based state persistence. FormTable page must show all shortcut methods with examples.
+- [x] **11.4** Create `docs/components/list-table.md`, `docs/components/data-table.md`. ListTable page must show: basic usage, sortable columns, bulk actions, search box, row actions, custom column rendering. DataTable shows the simpler static alternative.
+- [x] **11.5** Create `docs/components/spinner.md`, `docs/components/counter.md`, `docs/components/dashicon.md`, `docs/components/card.md`. These are shorter pages — basic usage + API reference is sufficient.
 - [ ] **11.6** Commit: `docs: all component pages`.
 
 ### Phase 12 — Field Documentation
