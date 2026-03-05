@@ -4,16 +4,20 @@ declare(strict_types=1);
 
 use Isolated\Symfony\Component\Finder\Finder;
 
-$vendorPrefix = getenv('FLUENT_ADMIN_SCOPER_VENDOR');
-if (!is_string($vendorPrefix) || trim($vendorPrefix) === '') {
-    $vendorPrefix = 'Isolated';
+// php-scoper currently triggers deprecation notices on newer PHP versions.
+// Suppress deprecations for deterministic builds.
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED);
+
+$prefix = getenv('FLUENT_ADMIN_SCOPER_PREFIX');
+if (!is_string($prefix) || trim($prefix) === '') {
+    // Default result for classes under FluentAdmin\*: Isolated\FluentAdmin\*
+    $prefix = 'Isolated';
 }
 
-$vendorPrefix = trim($vendorPrefix, '\\');
-$prefix = $vendorPrefix . '\\FluentAdmin';
+$prefix = trim($prefix, '\\');
 
 return [
-    // Default effective prefix: Isolated\FluentAdmin
+    // Default effective prefix for this library: Isolated\FluentAdmin
     'prefix' => $prefix,
 
     // php-scoper script also sets --output-dir=build/

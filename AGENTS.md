@@ -370,8 +370,8 @@ Guides show multiple components working together in real-world scenarios. Each g
 
 - [x] **16.1** Add `humbug/php-scoper` as a dev dependency. Create `scoper.inc.php` config that: prefixes the `FluentAdmin` namespace with a configurable vendor prefix (default `Isolated\FluentAdmin`), excludes WordPress functions and classes from prefixing, outputs to `build/`.
 - [x] **16.2** Add composer script: `"scope": "php-scoper add-prefix --output-dir=build/"`.
-- [ ] **16.3** Test that scoped build still passes unit tests (adjust autoload path temporarily).
-- [ ] **16.4** Commit: `feat: php-scoper configuration for conflict-free inclusion`.
+- [x] **16.3** Test that scoped build still passes unit tests (adjust autoload path temporarily).
+- [x] **16.4** Commit: `feat: php-scoper configuration for conflict-free inclusion`.
 
 ### Phase 17 — CI & Release Prep
 
