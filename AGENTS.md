@@ -306,7 +306,7 @@ The canonical documentation strategy is in `docs-strategy.md`. Follow it precise
 
 - [x] **9.1** Create `docs/` directory. Initialise VitePress: `docs/package.json` with `vitepress` dependency, scripts `docs:dev` and `docs:build`. Create `docs/.vitepress/config.ts` with: site title `wp-fluent-admin`, description, nav bar (Getting Started, Components, Fields, Guides, Extensibility, Reference), sidebar config matching the structure in `docs-strategy.md`, built-in local search enabled.
 - [x] **9.2** Create `docs/index.md` — the hero landing page. Must contain the before/after code comparison (raw WordPress boilerplate vs wp-fluent-admin), a "Get Started" link, and a "Browse Components" link. Follow the landing page template in `docs-strategy.md` exactly.
-- [ ] **9.3** Commit: `docs: VitePress scaffold and landing page`.
+- [x] **9.3** Commit: `docs: VitePress scaffold and landing page`.
 
 ### Phase 10 — Getting Started Docs
 
