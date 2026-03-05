@@ -80,6 +80,21 @@ class TabsTest extends TestCase
         unset($_GET['tab']);
     }
 
+    public function testGetParamIsUnslashedBeforeSlugMatching(): void
+    {
+        $_GET['tab'] = 'advanced\\ tab';
+
+        $html = Tabs::make()
+            ->tab('General', 'General Content')
+            ->tab('Advanced Tab', 'Advanced Tab Content')
+            ->render();
+
+        $this->assertStringContainsString('Advanced Tab Content', $html);
+        $this->assertStringNotContainsString('General Content', $html);
+
+        unset($_GET['tab']);
+    }
+
     public function testTabSlugIsSanitized(): void
     {
         $html = Tabs::make()

@@ -29,7 +29,7 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
 
-      - name: Lint (PSR-12)
+      - name: Lint (Project standard)
         run: composer lint
 
       - name: Run tests

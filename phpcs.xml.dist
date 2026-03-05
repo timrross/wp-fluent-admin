@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<ruleset name="wp-fluent-admin">
+    <description>PSR-12 baseline with WordPress security checks for source files.</description>
+
+    <file>src</file>
+    <file>tests</file>
+
+    <arg name="basepath" value="."/>
+    <arg name="colors"/>
+    <arg name="parallel" value="4"/>
+
+    <rule ref="PSR12"/>
+
+    <rule ref="WordPress.Security.EscapeOutput">
+        <include-pattern>*/src/*</include-pattern>
+    </rule>
+
+    <rule ref="WordPress.Security.NonceVerification">
+        <include-pattern>*/src/*</include-pattern>
+    </rule>
+
+    <rule ref="WordPress.Security.ValidatedSanitizedInput">
+        <include-pattern>*/src/*</include-pattern>
+    </rule>
+</ruleset>

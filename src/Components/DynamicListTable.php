@@ -124,8 +124,8 @@ class DynamicListTable extends \WP_List_Table
         $args = [
             'per_page' => $perPage,
             'page'     => $currentPage,
-            'orderby'  => isset($_GET['orderby']) ? sanitize_text_field((string) $_GET['orderby']) : '',
-            'order'    => isset($_GET['order']) ? sanitize_text_field((string) $_GET['order']) : 'asc',
+            'orderby'  => $this->getQueryParam('orderby'),
+            'order'    => $this->getQueryParam('order', 'asc'),
         ];
 
         $dataCb = $this->conf['data_cb'] ?? null;
@@ -192,6 +192,47 @@ class DynamicListTable extends \WP_List_Table
         $key = strtolower($key);
         $key = preg_replace('/[^a-z0-9_\-]/', '', $key) ?? '';
         return $key;
+    }
+
+    /**
+     * Safely read a scalar query parameter from $_GET.
+     *
+     * @param string $key
+     * @param string $default
+     * @return string
+     */
+    protected function getQueryParam(string $key, string $default = ''): string
+    {
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only sort state from list table URL parameters.
+        if (!isset($_GET[$key])) {
+            return $default;
+        }
+
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Value is unslashed and sanitized below.
+        $value = $_GET[$key];
+        $text = is_scalar($value) ? (string) $value : '';
+        $text = $this->unslash($text);
+
+        if (function_exists('sanitize_text_field')) {
+            return sanitize_text_field($text);
+        }
+
+        return trim(strip_tags($text));
+    }
+
+    /**
+     * Unslash a value using WordPress when available.
+     *
+     * @param string $value
+     * @return string
+     */
+    protected function unslash(string $value): string
+    {
+        if (function_exists('wp_unslash')) {
+            return (string) wp_unslash($value);
+        }
+
+        return stripslashes($value);
     }
 }
 

@@ -23,7 +23,9 @@
     "require-dev": {
         "humbug/php-scoper": "^0.18",
         "phpunit/phpunit": "^9.6",
-        "squizlabs/php_codesniffer": "^3.11"
+        "squizlabs/php_codesniffer": "^3.11",
+        "wp-coding-standards/wpcs": "^3.1",
+        "dealerdirect/phpcodesniffer-composer-installer": "^1.1"
     },
     "autoload": {
         "psr-4": {
@@ -36,9 +38,14 @@
         }
     },
     "scripts": {
-        "lint": "phpcs src/ tests/ --standard=PSR12",
+        "lint": "phpcs --standard=phpcs.xml.dist",
         "scope": "php-scoper add-prefix --output-dir=build/ --force",
         "test": "phpunit",
         "test:coverage": "phpunit --coverage-text"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     }
 }

@@ -65,6 +65,7 @@ class Page extends Component
     {
         if ($callback !== null) {
             $this->content($callback);
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Component HTML is escaped when built by render/html methods.
             echo parent::render();
             return '';
         }
