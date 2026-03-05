@@ -375,7 +375,7 @@ Guides show multiple components working together in real-world scenarios. Each g
 
 ### Phase 17 — CI & Release Prep
 
-- [ ] **17.1** Verify CI workflow runs on push and PR to `main`. Matrix: PHP 7.4, 8.0, 8.1, 8.2, 8.3.
+- [x] **17.1** Verify CI workflow runs on push and PR to `main`. Matrix: PHP 7.4, 8.0, 8.1, 8.2, 8.3.
 - [ ] **17.2** Add a `phpcs` step to CI using `squizlabs/php_codesniffer` with PSR-12 ruleset. Add composer script `"lint": "phpcs src/ tests/ --standard=PSR12"`. Fix any violations.
 - [ ] **17.3** Tag `v0.1.0`. Update `composer.json` with Packagist metadata: description, keywords (`wordpress`, `admin`, `ui`, `fluent`, `component`), authors, homepage (GitHub URL).
 - [ ] **17.4** Commit: `chore: CI finalisation and v0.1.0 release prep`.

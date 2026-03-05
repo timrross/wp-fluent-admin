@@ -1,7 +1,20 @@
 {
     "name": "wp-fluent-admin/wp-fluent-admin",
     "description": "A fluent PHP component library for WordPress admin pages",
+    "keywords": [
+        "wordpress",
+        "admin",
+        "ui",
+        "fluent",
+        "component"
+    ],
     "type": "library",
+    "homepage": "https://github.com/wp-fluent-admin/wp-fluent-admin",
+    "authors": [
+        {
+            "name": "wp-fluent-admin contributors"
+        }
+    ],
     "license": "GPL-2.0-or-later",
     "minimum-stability": "stable",
     "require": {
@@ -9,7 +22,8 @@
     },
     "require-dev": {
         "humbug/php-scoper": "^0.18",
-        "phpunit/phpunit": "^9.6"
+        "phpunit/phpunit": "^9.6",
+        "squizlabs/php_codesniffer": "^3.11"
     },
     "autoload": {
         "psr-4": {
@@ -22,6 +36,7 @@
         }
     },
     "scripts": {
+        "lint": "phpcs src/ tests/ --standard=PSR12",
         "scope": "php-scoper add-prefix --output-dir=build/",
         "test": "phpunit",
         "test:coverage": "phpunit --coverage-text"
