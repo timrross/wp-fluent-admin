@@ -324,17 +324,17 @@ Every component page follows the template in `docs-strategy.md`: one-sentence de
 - [x] **11.3** Create `docs/components/tabs.md`, `docs/components/form-table.md`. Tabs page must show URL-based state persistence. FormTable page must show all shortcut methods with examples.
 - [x] **11.4** Create `docs/components/list-table.md`, `docs/components/data-table.md`. ListTable page must show: basic usage, sortable columns, bulk actions, search box, row actions, custom column rendering. DataTable shows the simpler static alternative.
 - [x] **11.5** Create `docs/components/spinner.md`, `docs/components/counter.md`, `docs/components/dashicon.md`, `docs/components/card.md`. These are shorter pages — basic usage + API reference is sufficient.
-- [ ] **11.6** Commit: `docs: all component pages`.
+- [x] **11.6** Commit: `docs: all component pages`.
 
 ### Phase 12 — Field Documentation
 
 Every field page follows the field template in `docs-strategy.md`: show inside FormTable first, then standalone, then rendered HTML, then API reference.
 
-- [ ] **12.1** Create `docs/fields/overview.md`. Explains the Field base class, how fields work standalone vs inside FormTable, and lists all available fields with one-liner descriptions.
-- [ ] **12.2** Create `docs/fields/text.md`, `docs/fields/textarea.md`, `docs/fields/password.md`. Text page covers size variants (`small-text`, `regular-text`, `large-text`).
-- [ ] **12.3** Create `docs/fields/select.md`, `docs/fields/checkbox.md`, `docs/fields/radio.md`. Select page covers option groups if supported. Checkbox covers checked state. Radio covers option arrays.
-- [ ] **12.4** Create `docs/fields/color.md`, `docs/fields/media.md`. Both must document the `enqueue()` requirement clearly — these are the only fields that need JS.
-- [ ] **12.5** Commit: `docs: all field pages`.
+- [x] **12.1** Create `docs/fields/overview.md`. Explains the Field base class, how fields work standalone vs inside FormTable, and lists all available fields with one-liner descriptions.
+- [x] **12.2** Create `docs/fields/text.md`, `docs/fields/textarea.md`, `docs/fields/password.md`. Text page covers size variants (`small-text`, `regular-text`, `large-text`).
+- [x] **12.3** Create `docs/fields/select.md`, `docs/fields/checkbox.md`, `docs/fields/radio.md`. Select page covers option groups if supported. Checkbox covers checked state. Radio covers option arrays.
+- [x] **12.4** Create `docs/fields/color.md`, `docs/fields/media.md`. Both must document the `enqueue()` requirement clearly — these are the only fields that need JS.
+- [x] **12.5** Commit: `docs: all field pages`.
 
 ### Phase 13 — Guides
 
