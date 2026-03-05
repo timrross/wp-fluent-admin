@@ -340,11 +340,11 @@ Every field page follows the field template in `docs-strategy.md`: show inside F
 
 Guides show multiple components working together in real-world scenarios. Each guide produces a complete, working plugin file.
 
-- [ ] **13.1** Create `docs/guides/settings-page.md`. Walk through building a complete settings page: `register_setting()`, `add_menu_page()`, Page + Notice + Metabox + FormTable + Button, form submission handling. Complete code at the end.
-- [ ] **13.2** Create `docs/guides/list-page.md`. Walk through building a data listing page: custom table in `$wpdb`, ListTable with columns/sorting/bulk actions/search, delete handling with nonces. Complete code at the end.
-- [ ] **13.3** Create `docs/guides/dashboard-page.md`. Walk through building a dashboard: MetaboxContainer with two-column layout, Cards with stats, DataTable with recent items, ButtonGroup for quick actions.
-- [ ] **13.4** Create `docs/guides/multi-tab-settings.md`. Walk through building a multi-section settings page: Tabs with 3+ tabs, each containing different FormTable configurations, shared save handler.
-- [ ] **13.5** Create `docs/guides/custom-components.md`. Walk through creating a custom component by extending the base class. Build a "StatusCard" component from scratch. Show how to register custom filters.
+- [x] **13.1** Create `docs/guides/settings-page.md`. Walk through building a complete settings page: `register_setting()`, `add_menu_page()`, Page + Notice + Metabox + FormTable + Button, form submission handling. Complete code at the end.
+- [x] **13.2** Create `docs/guides/list-page.md`. Walk through building a data listing page: custom table in `$wpdb`, ListTable with columns/sorting/bulk actions/search, delete handling with nonces. Complete code at the end.
+- [x] **13.3** Create `docs/guides/dashboard-page.md`. Walk through building a dashboard: MetaboxContainer with two-column layout, Cards with stats, DataTable with recent items, ButtonGroup for quick actions.
+- [x] **13.4** Create `docs/guides/multi-tab-settings.md`. Walk through building a multi-section settings page: Tabs with 3+ tabs, each containing different FormTable configurations, shared save handler.
+- [x] **13.5** Create `docs/guides/custom-components.md`. Walk through creating a custom component by extending the base class. Build a "StatusCard" component from scratch. Show how to register custom filters.
 - [ ] **13.6** Commit: `docs: all guide pages`.
 
 ### Phase 14 — Extensibility & Reference Docs
