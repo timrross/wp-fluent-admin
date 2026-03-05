@@ -345,18 +345,18 @@ Guides show multiple components working together in real-world scenarios. Each g
 - [x] **13.3** Create `docs/guides/dashboard-page.md`. Walk through building a dashboard: MetaboxContainer with two-column layout, Cards with stats, DataTable with recent items, ButtonGroup for quick actions.
 - [x] **13.4** Create `docs/guides/multi-tab-settings.md`. Walk through building a multi-section settings page: Tabs with 3+ tabs, each containing different FormTable configurations, shared save handler.
 - [x] **13.5** Create `docs/guides/custom-components.md`. Walk through creating a custom component by extending the base class. Build a "StatusCard" component from scratch. Show how to register custom filters.
-- [ ] **13.6** Commit: `docs: all guide pages`.
+- [x] **13.6** Commit: `docs: all guide pages`.
 
 ### Phase 14 — Extensibility & Reference Docs
 
-- [ ] **14.1** Create `docs/extensibility/custom-components.md`. How to extend `Component`, implement `html()`, use traits, register with the filter system. Complete working example.
-- [ ] **14.2** Create `docs/extensibility/custom-fields.md`. How to extend `Field`, implement `inputHtml()`, integrate with FormTable. Complete working example (e.g. a CodeEditorField).
-- [ ] **14.3** Create `docs/extensibility/filters.md`. Complete list of every filter the library fires, with the filter name, arguments, and a usage example for each. Organised by component.
-- [ ] **14.4** Create `docs/extensibility/php-scoper.md`. Step-by-step guide: install php-scoper, configure, run, update autoload, verify. Show the before/after namespace.
-- [ ] **14.5** Create `docs/reference/component-base.md`. Full API reference for the abstract `Component` class and all traits (`Renderable`, `HasAttributes`, `HasChildren`). Every method, every parameter.
-- [ ] **14.6** Create `docs/reference/support-classes.md`. API reference for `Escape`, `Attributes`, `Version`.
-- [ ] **14.7** Create `docs/reference/wordpress-markup.md`. Map of every component to its rendered HTML and WordPress CSS classes used. This page serves as both a verification reference and a WordPress admin markup cheatsheet.
-- [ ] **14.8** Create `docs/changelog.md`. Stub with v0.1.0 entry.
+- [x] **14.1** Create `docs/extensibility/custom-components.md`. How to extend `Component`, implement `html()`, use traits, register with the filter system. Complete working example.
+- [x] **14.2** Create `docs/extensibility/custom-fields.md`. How to extend `Field`, implement `inputHtml()`, integrate with FormTable. Complete working example (e.g. a CodeEditorField).
+- [x] **14.3** Create `docs/extensibility/filters.md`. Complete list of every filter the library fires, with the filter name, arguments, and a usage example for each. Organised by component.
+- [x] **14.4** Create `docs/extensibility/php-scoper.md`. Step-by-step guide: install php-scoper, configure, run, update autoload, verify. Show the before/after namespace.
+- [x] **14.5** Create `docs/reference/component-base.md`. Full API reference for the abstract `Component` class and all traits (`Renderable`, `HasAttributes`, `HasChildren`). Every method, every parameter.
+- [x] **14.6** Create `docs/reference/support-classes.md`. API reference for `Escape`, `Attributes`, `Version`.
+- [x] **14.7** Create `docs/reference/wordpress-markup.md`. Map of every component to its rendered HTML and WordPress CSS classes used. This page serves as both a verification reference and a WordPress admin markup cheatsheet.
+- [x] **14.8** Create `docs/changelog.md`. Stub with v0.1.0 entry.
 - [ ] **14.9** Commit: `docs: extensibility, reference, and changelog pages`.
 
 ### Phase 15 — Docs Deployment & CI
