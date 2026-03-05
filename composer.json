@@ -1,0 +1,29 @@
+{
+    "name": "wp-fluent-admin/wp-fluent-admin",
+    "description": "A fluent PHP component library for WordPress admin pages",
+    "type": "library",
+    "license": "GPL-2.0-or-later",
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=7.4"
+    },
+    "require-dev": {
+        "humbug/php-scoper": "^0.18",
+        "phpunit/phpunit": "^9.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "FluentAdmin\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "FluentAdmin\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "scope": "php-scoper add-prefix --output-dir=build/",
+        "test": "phpunit",
+        "test:coverage": "phpunit --coverage-text"
+    }
+}

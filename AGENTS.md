@@ -364,12 +364,12 @@ Guides show multiple components working together in real-world scenarios. Each g
 - [x] **15.1** Create `.github/workflows/docs.yml`. Triggers on push to `main` when `docs/**` changes. Steps: checkout, setup Node 20, `npm install` in `docs/`, `npm run docs:build`, deploy to GitHub Pages using `actions/upload-pages-artifact` and `actions/deploy-pages`.
 - [x] **15.2** Add `docs/node_modules/` and `docs/.vitepress/cache/` and `docs/.vitepress/dist/` to `.gitignore`.
 - [x] **15.3** Verify local `npm run docs:dev` serves the site and all navigation/links work. Every sidebar link resolves. Every code example is syntactically valid PHP (spot-check at minimum).
-- [ ] **15.4** Commit: `ci: docs deployment to GitHub Pages`.
+- [x] **15.4** Commit: `ci: docs deployment to GitHub Pages`.
 
 ### Phase 16 — PHP-Scoper Configuration
 
-- [ ] **16.1** Add `humbug/php-scoper` as a dev dependency. Create `scoper.inc.php` config that: prefixes the `FluentAdmin` namespace with a configurable vendor prefix (default `Isolated\FluentAdmin`), excludes WordPress functions and classes from prefixing, outputs to `build/`.
-- [ ] **16.2** Add composer script: `"scope": "php-scoper add-prefix --output-dir=build/"`.
+- [x] **16.1** Add `humbug/php-scoper` as a dev dependency. Create `scoper.inc.php` config that: prefixes the `FluentAdmin` namespace with a configurable vendor prefix (default `Isolated\FluentAdmin`), excludes WordPress functions and classes from prefixing, outputs to `build/`.
+- [x] **16.2** Add composer script: `"scope": "php-scoper add-prefix --output-dir=build/"`.
 - [ ] **16.3** Test that scoped build still passes unit tests (adjust autoload path temporarily).
 - [ ] **16.4** Commit: `feat: php-scoper configuration for conflict-free inclusion`.
 
