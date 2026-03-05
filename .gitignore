@@ -1,0 +1,6 @@
+vendor/
+.phpunit.result.cache
+composer.lock
+docs/node_modules/
+docs/.vitepress/cache/
+docs/.vitepress/dist/

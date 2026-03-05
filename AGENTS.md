@@ -357,13 +357,13 @@ Guides show multiple components working together in real-world scenarios. Each g
 - [x] **14.6** Create `docs/reference/support-classes.md`. API reference for `Escape`, `Attributes`, `Version`.
 - [x] **14.7** Create `docs/reference/wordpress-markup.md`. Map of every component to its rendered HTML and WordPress CSS classes used. This page serves as both a verification reference and a WordPress admin markup cheatsheet.
 - [x] **14.8** Create `docs/changelog.md`. Stub with v0.1.0 entry.
-- [ ] **14.9** Commit: `docs: extensibility, reference, and changelog pages`.
+- [x] **14.9** Commit: `docs: extensibility, reference, and changelog pages`.
 
 ### Phase 15 — Docs Deployment & CI
 
-- [ ] **15.1** Create `.github/workflows/docs.yml`. Triggers on push to `main` when `docs/**` changes. Steps: checkout, setup Node 20, `npm install` in `docs/`, `npm run docs:build`, deploy to GitHub Pages using `actions/upload-pages-artifact` and `actions/deploy-pages`.
-- [ ] **15.2** Add `docs/node_modules/` and `docs/.vitepress/cache/` and `docs/.vitepress/dist/` to `.gitignore`.
-- [ ] **15.3** Verify local `npm run docs:dev` serves the site and all navigation/links work. Every sidebar link resolves. Every code example is syntactically valid PHP (spot-check at minimum).
+- [x] **15.1** Create `.github/workflows/docs.yml`. Triggers on push to `main` when `docs/**` changes. Steps: checkout, setup Node 20, `npm install` in `docs/`, `npm run docs:build`, deploy to GitHub Pages using `actions/upload-pages-artifact` and `actions/deploy-pages`.
+- [x] **15.2** Add `docs/node_modules/` and `docs/.vitepress/cache/` and `docs/.vitepress/dist/` to `.gitignore`.
+- [x] **15.3** Verify local `npm run docs:dev` serves the site and all navigation/links work. Every sidebar link resolves. Every code example is syntactically valid PHP (spot-check at minimum).
 - [ ] **15.4** Commit: `ci: docs deployment to GitHub Pages`.
 
 ### Phase 16 — PHP-Scoper Configuration
