@@ -291,7 +291,7 @@ Work through these in order. Each task is a single commit (or small group of com
 
 - [x] **7.1** Create `examples/example-plugin/example-plugin.php`. Standard WordPress plugin header. Registers an admin menu page using `add_menu_page()`. In the callback, uses wp-fluent-admin to build a full page demonstrating: Page with icon, Notice (all types), Tabs (3 tabs), Metabox with FormTable (text, select, checkbox, textarea, password, radio), ButtonGroup, DataTable with sample data, Card, Counter, Spinner, Dashicon.
 - [x] **7.2** Create `examples/example-plugin/README.md` explaining how to install: symlink or copy into `wp-content/plugins/`, run `composer install` in the library root, activate.
-- [ ] **7.3** Commit: `docs: example plugin demonstrating all components`.
+- [x] **7.3** Commit: `docs: example plugin demonstrating all components`.
 
 ### Phase 8 — README & Repo Docs
 
