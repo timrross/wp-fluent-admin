@@ -49,4 +49,14 @@ class ButtonGroupTest extends TestCase
         $this->assertStringContainsString('>A<', $html);
         $this->assertStringContainsString('>B<', $html);
     }
+
+    public function testStringChildrenAreEscaped(): void
+    {
+        $html = ButtonGroup::make()
+            ->child('<script>alert(1)</script>')
+            ->render();
+
+        $this->assertStringNotContainsString('<script>', $html);
+        $this->assertStringContainsString('&lt;script&gt;', $html);
+    }
 }

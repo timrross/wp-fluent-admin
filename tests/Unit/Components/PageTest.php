@@ -65,6 +65,19 @@ class PageTest extends TestCase
         $this->assertStringNotContainsString('dashicons', $html);
     }
 
+    public function testRenderWithCallableStillPassesThroughRenderFilter(): void
+    {
+        $GLOBALS['fluent_admin_applied_filters'] = [];
+
+        ob_start();
+        Page::make('Page')->render(function () {
+            echo '<p>Filtered</p>';
+        });
+        ob_end_clean();
+
+        $this->assertContains('fluent_admin_page_render', $GLOBALS['fluent_admin_applied_filters']);
+    }
+
     public function testToStringWorks(): void
     {
         $page = Page::make('Test');

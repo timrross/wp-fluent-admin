@@ -85,15 +85,22 @@ class ListTable extends Component
     }
 
     /**
-     * Set the data callback (receives query args array, returns rows array).
+     * Dual-purpose data() method:
+     * - ListTable API: data(callable $callback) sets the table data callback.
+     * - HasAttributes API: data(string $name, mixed $value) sets a data-* attribute.
      *
-     * @param callable $callback
+     * @param mixed $name
+     * @param mixed $value
      * @return static
      */
-    public function data(callable $callback): static
+    public function data($name, $value = null): static
     {
-        $this->dataCallback = $callback;
-        return $this;
+        if (is_callable($name) && $value === null) {
+            $this->dataCallback = $name;
+            return $this;
+        }
+
+        return parent::data((string) $name, $value);
     }
 
     /**
@@ -148,6 +155,7 @@ class ListTable extends Component
             'per_page'  => $this->perPageCount,
             'data_cb'   => $this->dataCallback,
             'count_cb'  => $this->countCallback,
+            'row_actions_cb' => $this->rowActionsCallback,
         ]);
 
         $table->prepare_items();

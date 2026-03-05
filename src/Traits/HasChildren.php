@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FluentAdmin\Traits;
 
 use FluentAdmin\Component;
+use FluentAdmin\Support\Escape;
 
 /**
  * Provides child component management for container components.
@@ -58,7 +59,7 @@ trait HasChildren
             } elseif ($child instanceof Component) {
                 $output .= $child->render();
             } else {
-                $output .= (string) $child;
+                $output .= Escape::html((string) $child);
             }
         }
         return $output;

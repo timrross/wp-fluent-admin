@@ -81,7 +81,18 @@ class DynamicListTable extends \WP_List_Table
      */
     public function column_default($item, $column_name): string
     {
-        return Escape::html((string) ($item[$column_name] ?? ''));
+        $value = Escape::html((string) ($item[$column_name] ?? ''));
+
+        if ($column_name !== $this->get_primary_column_name()) {
+            return $value;
+        }
+
+        $actions = $this->resolveRowActions($item);
+        if ($actions === []) {
+            return $value;
+        }
+
+        return $value . $this->row_actions($actions);
     }
 
     /**
@@ -127,6 +138,60 @@ class DynamicListTable extends \WP_List_Table
             'total_items' => $total,
             'per_page'    => $perPage,
         ]);
+    }
+
+    /**
+     * Resolve row actions for an item via configured callback.
+     *
+     * @param array<string, mixed> $item
+     * @return array<string, string>
+     */
+    protected function resolveRowActions(array $item): array
+    {
+        $callback = $this->conf['row_actions_cb'] ?? null;
+        if (!is_callable($callback)) {
+            return [];
+        }
+
+        $actions = call_user_func($callback, $item);
+        if (!is_array($actions)) {
+            return [];
+        }
+
+        $sanitized = [];
+        foreach ($actions as $key => $markup) {
+            $actionKey = $this->sanitizeActionKey((string) $key);
+            if ($actionKey === '') {
+                continue;
+            }
+
+            $markupString = (string) $markup;
+            if (function_exists('wp_kses_post')) {
+                $sanitized[$actionKey] = (string) wp_kses_post($markupString);
+                continue;
+            }
+
+            $sanitized[$actionKey] = strip_tags($markupString, '<a>');
+        }
+
+        return $sanitized;
+    }
+
+    /**
+     * Sanitize a row action key for safe CSS class/name usage.
+     *
+     * @param string $key
+     * @return string
+     */
+    protected function sanitizeActionKey(string $key): string
+    {
+        if (function_exists('sanitize_key')) {
+            return (string) sanitize_key($key);
+        }
+
+        $key = strtolower($key);
+        $key = preg_replace('/[^a-z0-9_\-]/', '', $key) ?? '';
+        return $key;
     }
 }
 

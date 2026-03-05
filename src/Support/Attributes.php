@@ -36,6 +36,20 @@ class Attributes
                 $value = implode(' ', array_filter($value));
             }
 
+            // Handle 'data' as an array of data-* attributes
+            if ($key === 'data' && is_array($value)) {
+                foreach ($value as $dataKey => $dataValue) {
+                    if ($dataValue === false || $dataValue === null) {
+                        continue;
+                    }
+
+                    $attrKey = 'data-' . (string) $dataKey;
+                    $attrValue = $dataValue === true ? '1' : (string) $dataValue;
+                    $parts[] = Escape::attr($attrKey) . '="' . Escape::attr($attrValue) . '"';
+                }
+                continue;
+            }
+
             // Boolean attributes
             if ($value === true) {
                 $parts[] = Escape::attr($key);

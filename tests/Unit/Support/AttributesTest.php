@@ -58,6 +58,21 @@ class AttributesTest extends TestCase
         $this->assertSame(' data-action="delete"', $result);
     }
 
+    public function testDataArrayExpandsToDataAttributes(): void
+    {
+        $result = Attributes::build([
+            'data' => [
+                'action' => 'delete',
+                'enabled' => true,
+                'count' => 3,
+            ],
+        ]);
+
+        $this->assertStringContainsString('data-action="delete"', $result);
+        $this->assertStringContainsString('data-enabled="1"', $result);
+        $this->assertStringContainsString('data-count="3"', $result);
+    }
+
     public function testValuesAreEscaped(): void
     {
         $result = Attributes::build(['title' => '<script>xss</script>']);

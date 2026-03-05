@@ -70,6 +70,11 @@ if (!function_exists('wp_kses_post')) {
 if (!function_exists('apply_filters')) {
     function apply_filters(string $tag, $value, ...$args)
     {
+        if (!isset($GLOBALS['fluent_admin_applied_filters']) || !is_array($GLOBALS['fluent_admin_applied_filters'])) {
+            $GLOBALS['fluent_admin_applied_filters'] = [];
+        }
+
+        $GLOBALS['fluent_admin_applied_filters'][] = $tag;
         return $value;
     }
 }

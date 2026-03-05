@@ -37,7 +37,7 @@
     },
     "scripts": {
         "lint": "phpcs src/ tests/ --standard=PSR12",
-        "scope": "php-scoper add-prefix --output-dir=build/",
+        "scope": "php-scoper add-prefix --output-dir=build/ --force",
         "test": "phpunit",
         "test:coverage": "phpunit --coverage-text"
     }

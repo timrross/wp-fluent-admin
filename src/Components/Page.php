@@ -65,7 +65,7 @@ class Page extends Component
     {
         if ($callback !== null) {
             $this->content($callback);
-            echo $this->html();
+            echo parent::render();
             return '';
         }
 
