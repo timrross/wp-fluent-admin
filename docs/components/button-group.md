@@ -48,7 +48,7 @@ No constructor parameters.
 |--------|---------|-------------|
 | `::make()` | `static` | Factory constructor |
 | `->add(Button ...$buttons)` | `static` | Add one or more Button instances |
-| `->child(Component|string|callable $child)` | `static` | Add generic child content |
+| `->child(Component|string|callable $child)` | `static` | Add generic child content (string children are escaped) |
 | `->children(array $children)` | `static` | Add multiple children |
 | `->render()` | `string` | Return rendered HTML |
 

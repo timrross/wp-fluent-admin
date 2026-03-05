@@ -26,9 +26,8 @@ Builds HTML attribute strings from associative arrays.
 - Boolean attributes (`true` => attribute name only, `false/null` => omitted)
 - Class arrays merged to space-separated class strings
 - String/int attribute values escaped with `Escape::attr()`
+- `data` arrays expanded to `data-*` attributes (`['data' => ['state' => 'open']]` => `data-state="open"`)
 
-## `FluentAdmin\Support\Version`
+## Current support classes
 
-`Version` is referenced in the project layout but is not present in the current `src/Support` implementation.
-
-If added later, document its public constants/methods here.
+The current API includes `Escape` and `Attributes`.

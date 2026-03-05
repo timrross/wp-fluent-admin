@@ -47,6 +47,8 @@ echo Tabs::make()
 
 When a tab link is clicked, the URL includes `?tab={slug}` and that tab stays active on refresh.
 
+Tab content passed as a plain string is escaped. Use a `Component` or callback when you want to render HTML markup.
+
 ## API Reference
 
 ### Constructor

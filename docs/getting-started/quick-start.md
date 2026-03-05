@@ -61,7 +61,7 @@ add_action('admin_menu', function () {
         ];
 
         $table = ListTable::make()
-            ->columns(['cb' => '<input type="checkbox" />', 'event' => 'Event', 'status' => 'Status'])
+            ->columns(['event' => 'Event', 'status' => 'Status'])
             ->sortable(['event', 'status'])
             ->bulkActions(['delete' => 'Delete'])
             ->perPage(20)
@@ -79,7 +79,9 @@ add_action('admin_menu', function () {
         Page::make('FA Logs')->render(function () use ($table) {
             echo Tabs::make()
                 ->tab('All Events', $table)
-                ->tab('Settings', '<p>Configure retention and export options.</p>');
+                ->tab('Settings', function () {
+                    echo '<p>Configure retention and export options.</p>';
+                });
         });
     }, 'dashicons-list-view');
 });

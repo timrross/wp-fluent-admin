@@ -32,7 +32,6 @@ All filters receive:
 
 | Filter | Target |
 |--------|--------|
-| `fluent_admin_field_render` | `Field` (base) |
 | `fluent_admin_textfield_render` | `TextField` |
 | `fluent_admin_textareafield_render` | `TextareaField` |
 | `fluent_admin_selectfield_render` | `SelectField` |
@@ -41,6 +40,8 @@ All filters receive:
 | `fluent_admin_passwordfield_render` | `PasswordField` |
 | `fluent_admin_colorfield_render` | `ColorField` |
 | `fluent_admin_mediafield_render` | `MediaField` |
+
+Custom field subclasses follow the same pattern (`CodeEditorField` => `fluent_admin_codeeditorfield_render`).
 
 ## Usage Example
 

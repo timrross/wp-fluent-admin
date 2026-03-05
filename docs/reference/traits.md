@@ -35,3 +35,4 @@ Provides container-child composition:
 - `renderChildren(): string`
 
 Callable children render via output buffering.
+String children are escaped with `Escape::html()` before output.

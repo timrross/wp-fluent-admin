@@ -3,6 +3,7 @@
 Renders a dynamic `WP_List_Table` with pagination, sorting, bulk actions, and optional search box.
 
 For static tabular data with no `WP_List_Table` dependency, use [Data Table](/components/data-table).
+When `WP_List_Table` is unavailable (for example in unit tests), `ListTable` renders a fallback paragraph.
 
 ## Basic Usage
 
@@ -110,6 +111,11 @@ No constructor parameters.
 | `->render()` | `string` | Return rendered HTML |
 
 `$args` passed to `->data()` contains: `per_page`, `page`, `orderby`, `order`.
+
+`->data()` is dual-purpose:
+
+- `->data(callable $callback)` sets the table data callback.
+- `->data(string $name, mixed $value)` sets a `data-*` attribute via `HasAttributes`.
 
 ## Filters
 

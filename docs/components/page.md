@@ -59,7 +59,7 @@ echo $page;
 | `::make(string $title)` | `static` | Factory constructor |
 | `->content(callable $callback)` | `static` | Set callback that renders page content |
 | `->icon(string $dashicon)` | `static` | Add dashicon class before title |
-| `->render(?callable $callback = null)` | `string` | Render HTML; optional callback overload |
+| `->render(?callable $callback = null)` | `string` | Render HTML string; when callback is provided it echoes output and returns an empty string |
 | `->toHtml()` | `string` | Alias of `render()` |
 
 ## Filters
