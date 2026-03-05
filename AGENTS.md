@@ -285,7 +285,7 @@ Work through these in order. Each task is a single commit (or small group of com
 - [x] **6.1** Create `src/Fields/ColorField.php`. `inputHtml()` renders `<input type="text" class="wp-color-picker" />`. Also outputs a script call to `jQuery(el).wpColorPicker()` wrapped in a `DOMContentLoaded` listener — or provides a `->enqueue()` method that calls `wp_enqueue_script('wp-color-picker')` and `wp_enqueue_style('wp-color-picker')`. Since the library is output-only, prefer the enqueue approach: document that the caller must call `$field->enqueue()` during `admin_enqueue_scripts`.
 - [x] **6.2** Create `src/Fields/MediaField.php`. `inputHtml()` renders a hidden input for the attachment ID, an `<img>` preview, and a "Select Image" / "Remove" button. Requires `wp_enqueue_media()`. Provide a static `::enqueueAssets()` method the caller hooks into `admin_enqueue_scripts`. The JS for opening the media modal should be minimal inline script or documented as a requirement.
 - [x] **6.3** Write tests for ColorField and MediaField (assert HTML structure; JS/enqueue behaviour is documented, not tested in unit).
-- [ ] **6.4** Commit: `feat: advanced fields — ColorField, MediaField`.
+- [x] **6.4** Commit: `feat: advanced fields — ColorField, MediaField`.
 
 ### Phase 7 — Example Plugin
 
