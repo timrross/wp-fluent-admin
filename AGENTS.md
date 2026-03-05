@@ -313,7 +313,7 @@ The canonical documentation strategy is in `docs-strategy.md`. Follow it precise
 - [x] **10.1** Create `docs/getting-started/installation.md`. Cover: requirements (PHP 7.4+, WP 6.0+, Composer), `composer require`, loading the autoloader in a plugin, link to PHP-Scoper guide for conflict avoidance.
 - [x] **10.2** Create `docs/getting-started/quick-start.md`. Three progressive examples: (1) Hello World — Page + Notice + Button in 5 lines, (2) Settings Form — Page + Metabox + FormTable saving to wp_options in 15 lines, (3) Data Listing — Page + Tabs + ListTable with sortable columns in 25 lines. Each example is a complete `add_menu_page` callback — copy-pasteable.
 - [x] **10.3** Create `docs/getting-started/concepts.md`. Four concepts in under 200 words total: components are echo-able, fluent chaining, composable children, no CSS/JS shipped. No code block longer than 6 lines.
-- [ ] **10.4** Commit: `docs: getting started — installation, quick start, concepts`.
+- [x] **10.4** Commit: `docs: getting started — installation, quick start, concepts`.
 
 ### Phase 11 — Component Documentation
 
