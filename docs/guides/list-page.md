@@ -41,15 +41,35 @@ function fa_render_contacts_page(): void
     global $wpdb;
     $tableName = $wpdb->prefix . 'fa_contacts';
 
-    if (isset($_GET['action'], $_GET['id']) && $_GET['action'] === 'delete') {
-        $id = absint($_GET['id']);
-        $nonce = sanitize_text_field((string) ($_GET['_wpnonce'] ?? ''));
+    $bulkAction = isset($_POST['action']) ? sanitize_text_field(wp_unslash($_POST['action'])) : '';
+    $bulkAction2 = isset($_POST['action2']) ? sanitize_text_field(wp_unslash($_POST['action2'])) : '';
+    $bulkNonce = isset($_POST['fa_contacts_bulk_nonce']) ? sanitize_text_field(wp_unslash($_POST['fa_contacts_bulk_nonce'])) : '';
+    $bulkIds = isset($_POST['bulk-ids']) && is_array($_POST['bulk-ids'])
+        ? array_filter(array_map('absint', wp_unslash($_POST['bulk-ids'])))
+        : [];
+    $action = isset($_GET['action']) ? sanitize_text_field(wp_unslash($_GET['action'])) : '';
+    $id = isset($_GET['id']) ? absint(wp_unslash($_GET['id'])) : 0;
+    $nonce = isset($_GET['_wpnonce']) ? sanitize_text_field(wp_unslash($_GET['_wpnonce'])) : '';
+    $deleted = isset($_GET['deleted']) && '1' === sanitize_text_field(wp_unslash($_GET['deleted']));
+    $searchTerm = isset($_REQUEST['s']) ? sanitize_text_field(wp_unslash($_REQUEST['s'])) : '';
 
-        if ($id > 0 && wp_verify_nonce($nonce, 'fa_delete_contact_' . $id)) {
-            $wpdb->delete($tableName, ['id' => $id], ['%d']);
-            wp_safe_redirect(admin_url('admin.php?page=fa-contacts&deleted=1'));
-            exit;
+    if (
+        ('delete' === $bulkAction || 'delete' === $bulkAction2)
+        && [] !== $bulkIds
+        && wp_verify_nonce($bulkNonce, 'fa_contacts_bulk_delete')
+    ) {
+        foreach ($bulkIds as $bulkId) {
+            $wpdb->delete($tableName, ['id' => $bulkId], ['%d']);
         }
+
+        wp_safe_redirect(admin_url('admin.php?page=fa-contacts&deleted=1'));
+        exit;
+    }
+
+    if ('delete' === $action && $id > 0 && wp_verify_nonce($nonce, 'fa_delete_contact_' . $id)) {
+        $wpdb->delete($tableName, ['id' => $id], ['%d']);
+        wp_safe_redirect(admin_url('admin.php?page=fa-contacts&deleted=1'));
+        exit;
     }
 
     $list = ListTable::make()
@@ -63,10 +83,38 @@ function fa_render_contacts_page(): void
         ->bulkActions(['delete' => 'Delete'])
         ->perPage(20)
         ->search()
-        ->count(function () use ($wpdb, $tableName): int {
-            return (int) $wpdb->get_var("SELECT COUNT(*) FROM {$tableName}");
+        ->rowActions(function (array $item): array {
+            $id = (int) ($item['id'] ?? 0);
+
+            if ($id <= 0) {
+                return [];
+            }
+
+            return [
+                'delete' => sprintf(
+                    '<a href="%s">Delete</a>',
+                    esc_url(
+                        wp_nonce_url(
+                            admin_url('admin.php?page=fa-contacts&action=delete&id=' . $id),
+                            'fa_delete_contact_' . $id
+                        )
+                    )
+                ),
+            ];
         })
-        ->data(function (array $args) use ($wpdb, $tableName): array {
+        ->count(function () use ($wpdb, $tableName, $searchTerm): int {
+            if ('' === $searchTerm) {
+                return (int) $wpdb->get_var("SELECT COUNT(*) FROM {$tableName}");
+            }
+
+            $sql = $wpdb->prepare(
+                "SELECT COUNT(*) FROM {$tableName} WHERE email LIKE %s",
+                '%' . $wpdb->esc_like($searchTerm) . '%'
+            );
+
+            return (int) $wpdb->get_var($sql);
+        })
+        ->data(function (array $args) use ($wpdb, $tableName, $searchTerm): array {
             $perPage = (int) $args['per_page'];
             $page = max(1, (int) $args['page']);
             $offset = ($page - 1) * $perPage;
@@ -75,31 +123,33 @@ function fa_render_contacts_page(): void
             $orderby = in_array($args['orderby'], $allowed, true) ? $args['orderby'] : 'created_at';
             $order = strtoupper((string) $args['order']) === 'ASC' ? 'ASC' : 'DESC';
 
-            $sql = $wpdb->prepare(
-                "SELECT id, email, status, created_at FROM {$tableName} ORDER BY {$orderby} {$order} LIMIT %d OFFSET %d",
-                $perPage,
-                $offset
-            );
+            if ('' === $searchTerm) {
+                $sql = $wpdb->prepare(
+                    "SELECT id, email, status, created_at FROM {$tableName} ORDER BY {$orderby} {$order} LIMIT %d OFFSET %d",
+                    $perPage,
+                    $offset
+                );
+            } else {
+                $sql = $wpdb->prepare(
+                    "SELECT id, email, status, created_at FROM {$tableName} WHERE email LIKE %s ORDER BY {$orderby} {$order} LIMIT %d OFFSET %d",
+                    '%' . $wpdb->esc_like($searchTerm) . '%',
+                    $perPage,
+                    $offset
+                );
+            }
 
             $rows = (array) $wpdb->get_results($sql, ARRAY_A);
-
-            foreach ($rows as &$row) {
-                $deleteUrl = wp_nonce_url(
-                    admin_url('admin.php?page=fa-contacts&action=delete&id=' . (int) $row['id']),
-                    'fa_delete_contact_' . (int) $row['id']
-                );
-                $row['email'] = $row['email'] . ' (delete: ' . $deleteUrl . ')';
-            }
 
             return $rows;
         });
 
-    Page::make('Contacts')->render(function () use ($list) {
-        if (isset($_GET['deleted']) && $_GET['deleted'] === '1') {
+    Page::make('Contacts')->render(function () use ($list, $deleted) {
+        if ($deleted) {
             echo Notice::make('Contact deleted.', 'success')->dismissible();
         }
 
         echo '<form method="post">';
+        wp_nonce_field('fa_contacts_bulk_delete', 'fa_contacts_bulk_nonce');
         echo $list;
         echo '</form>';
     });
@@ -162,15 +212,35 @@ function fa_render_contacts_page(): void
     global $wpdb;
     $tableName = $wpdb->prefix . 'fa_contacts';
 
-    if (isset($_GET['action'], $_GET['id']) && $_GET['action'] === 'delete') {
-        $id = absint($_GET['id']);
-        $nonce = sanitize_text_field((string) ($_GET['_wpnonce'] ?? ''));
+    $bulkAction = isset($_POST['action']) ? sanitize_text_field(wp_unslash($_POST['action'])) : '';
+    $bulkAction2 = isset($_POST['action2']) ? sanitize_text_field(wp_unslash($_POST['action2'])) : '';
+    $bulkNonce = isset($_POST['fa_contacts_bulk_nonce']) ? sanitize_text_field(wp_unslash($_POST['fa_contacts_bulk_nonce'])) : '';
+    $bulkIds = isset($_POST['bulk-ids']) && is_array($_POST['bulk-ids'])
+        ? array_filter(array_map('absint', wp_unslash($_POST['bulk-ids'])))
+        : [];
+    $action = isset($_GET['action']) ? sanitize_text_field(wp_unslash($_GET['action'])) : '';
+    $id = isset($_GET['id']) ? absint(wp_unslash($_GET['id'])) : 0;
+    $nonce = isset($_GET['_wpnonce']) ? sanitize_text_field(wp_unslash($_GET['_wpnonce'])) : '';
+    $deleted = isset($_GET['deleted']) && '1' === sanitize_text_field(wp_unslash($_GET['deleted']));
+    $searchTerm = isset($_REQUEST['s']) ? sanitize_text_field(wp_unslash($_REQUEST['s'])) : '';
 
-        if ($id > 0 && wp_verify_nonce($nonce, 'fa_delete_contact_' . $id)) {
-            $wpdb->delete($tableName, ['id' => $id], ['%d']);
-            wp_safe_redirect(admin_url('admin.php?page=fa-contacts&deleted=1'));
-            exit;
+    if (
+        ('delete' === $bulkAction || 'delete' === $bulkAction2)
+        && [] !== $bulkIds
+        && wp_verify_nonce($bulkNonce, 'fa_contacts_bulk_delete')
+    ) {
+        foreach ($bulkIds as $bulkId) {
+            $wpdb->delete($tableName, ['id' => $bulkId], ['%d']);
         }
+
+        wp_safe_redirect(admin_url('admin.php?page=fa-contacts&deleted=1'));
+        exit;
+    }
+
+    if ('delete' === $action && $id > 0 && wp_verify_nonce($nonce, 'fa_delete_contact_' . $id)) {
+        $wpdb->delete($tableName, ['id' => $id], ['%d']);
+        wp_safe_redirect(admin_url('admin.php?page=fa-contacts&deleted=1'));
+        exit;
     }
 
     $list = ListTable::make()
@@ -179,30 +249,70 @@ function fa_render_contacts_page(): void
         ->bulkActions(['delete' => 'Delete'])
         ->perPage(20)
         ->search()
-        ->count(function () use ($wpdb, $tableName): int {
-            return (int) $wpdb->get_var("SELECT COUNT(*) FROM {$tableName}");
+        ->rowActions(function (array $item): array {
+            $id = (int) ($item['id'] ?? 0);
+
+            if ($id <= 0) {
+                return [];
+            }
+
+            return [
+                'delete' => sprintf(
+                    '<a href="%s">Delete</a>',
+                    esc_url(
+                        wp_nonce_url(
+                            admin_url('admin.php?page=fa-contacts&action=delete&id=' . $id),
+                            'fa_delete_contact_' . $id
+                        )
+                    )
+                ),
+            ];
         })
-        ->data(function (array $args) use ($wpdb, $tableName): array {
+        ->count(function () use ($wpdb, $tableName, $searchTerm): int {
+            if ('' === $searchTerm) {
+                return (int) $wpdb->get_var("SELECT COUNT(*) FROM {$tableName}");
+            }
+
+            $sql = $wpdb->prepare(
+                "SELECT COUNT(*) FROM {$tableName} WHERE email LIKE %s",
+                '%' . $wpdb->esc_like($searchTerm) . '%'
+            );
+
+            return (int) $wpdb->get_var($sql);
+        })
+        ->data(function (array $args) use ($wpdb, $tableName, $searchTerm): array {
             $perPage = (int) $args['per_page'];
             $page = max(1, (int) $args['page']);
             $offset = ($page - 1) * $perPage;
             $allowed = ['email', 'status', 'created_at'];
             $orderby = in_array($args['orderby'], $allowed, true) ? $args['orderby'] : 'created_at';
             $order = strtoupper((string) $args['order']) === 'ASC' ? 'ASC' : 'DESC';
-            $sql = $wpdb->prepare(
-                "SELECT id, email, status, created_at FROM {$tableName} ORDER BY {$orderby} {$order} LIMIT %d OFFSET %d",
-                $perPage,
-                $offset
-            );
+
+            if ('' === $searchTerm) {
+                $sql = $wpdb->prepare(
+                    "SELECT id, email, status, created_at FROM {$tableName} ORDER BY {$orderby} {$order} LIMIT %d OFFSET %d",
+                    $perPage,
+                    $offset
+                );
+            } else {
+                $sql = $wpdb->prepare(
+                    "SELECT id, email, status, created_at FROM {$tableName} WHERE email LIKE %s ORDER BY {$orderby} {$order} LIMIT %d OFFSET %d",
+                    '%' . $wpdb->esc_like($searchTerm) . '%',
+                    $perPage,
+                    $offset
+                );
+            }
+
             return (array) $wpdb->get_results($sql, ARRAY_A);
         });
 
-    Page::make('Contacts')->render(function () use ($list) {
-        if (isset($_GET['deleted']) && $_GET['deleted'] === '1') {
+    Page::make('Contacts')->render(function () use ($list, $deleted) {
+        if ($deleted) {
             echo Notice::make('Contact deleted.', 'success')->dismissible();
         }
 
         echo '<form method="post">';
+        wp_nonce_field('fa_contacts_bulk_delete', 'fa_contacts_bulk_nonce');
         echo $list;
         echo '</form>';
     });

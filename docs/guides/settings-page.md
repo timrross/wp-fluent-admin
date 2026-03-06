@@ -53,9 +53,11 @@ function fa_render_settings_page(): void
     $apiKey = (string) ($settings['api_key'] ?? '');
     $region = (string) ($settings['region'] ?? 'us');
     $enabled = (string) ($settings['enabled'] ?? '0') === '1';
+    $updated = isset($_GET['settings-updated'])
+        && 'true' === sanitize_text_field(wp_unslash($_GET['settings-updated']));
 
-    Page::make('Fluent Admin Settings')->icon('dashicons-admin-generic')->render(function () use ($apiKey, $region, $enabled) {
-        if (isset($_GET['settings-updated']) && $_GET['settings-updated'] === 'true') {
+    Page::make('Fluent Admin Settings')->icon('dashicons-admin-generic')->render(function () use ($apiKey, $region, $enabled, $updated) {
+        if ($updated) {
             echo Notice::make('Settings saved.', 'success')->dismissible();
         }
 
@@ -137,9 +139,11 @@ function fa_render_settings_page(): void
     $apiKey = (string) ($settings['api_key'] ?? '');
     $region = (string) ($settings['region'] ?? 'us');
     $enabled = (string) ($settings['enabled'] ?? '0') === '1';
+    $updated = isset($_GET['settings-updated'])
+        && 'true' === sanitize_text_field(wp_unslash($_GET['settings-updated']));
 
-    Page::make('Fluent Admin Settings')->icon('dashicons-admin-generic')->render(function () use ($apiKey, $region, $enabled) {
-        if (isset($_GET['settings-updated']) && $_GET['settings-updated'] === 'true') {
+    Page::make('Fluent Admin Settings')->icon('dashicons-admin-generic')->render(function () use ($apiKey, $region, $enabled, $updated) {
+        if ($updated) {
             echo Notice::make('Settings saved.', 'success')->dismissible();
         }
 

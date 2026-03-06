@@ -77,6 +77,13 @@ No constructor parameters.
 ### Multi-section settings screen
 
 ```php
+$updated = isset($_GET['settings-updated'])
+    && 'true' === sanitize_text_field(wp_unslash($_GET['settings-updated']));
+
+if ($updated) {
+    echo \FluentAdmin\Components\Notice::make('Settings saved.', 'success')->dismissible();
+}
+
 echo Tabs::make()
     ->tab('API', 'API settings')
     ->tab('Sync', 'Sync settings')

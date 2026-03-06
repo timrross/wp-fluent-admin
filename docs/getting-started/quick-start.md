@@ -20,19 +20,36 @@ add_action('admin_menu', function () {
 ## 2. Settings Form (Page + Metabox + FormTable + `wp_options`)
 
 ```php
-use FluentAdmin\Components\{Page, Metabox, FormTable, Button};
+use FluentAdmin\Components\{Page, Notice, Metabox, FormTable, Button};
 
 add_action('admin_menu', function () {
     add_menu_page('FA Settings', 'FA Settings', 'manage_options', 'fa-settings', function () {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fa_nonce']) && wp_verify_nonce(sanitize_text_field((string) $_POST['fa_nonce']), 'fa_save')) {
-            update_option('fa_api_key', sanitize_text_field((string) ($_POST['fa_api_key'] ?? '')));
-            update_option('fa_env', sanitize_text_field((string) ($_POST['fa_env'] ?? 'prod')));
+        $updated = false;
+
+        if ('POST' === ($_SERVER['REQUEST_METHOD'] ?? '') && isset($_POST['fa_nonce'])) {
+            $nonce = sanitize_text_field(wp_unslash($_POST['fa_nonce']));
+
+            if (wp_verify_nonce($nonce, 'fa_save')) {
+                update_option(
+                    'fa_api_key',
+                    sanitize_text_field(wp_unslash($_POST['fa_api_key'] ?? ''))
+                );
+                update_option(
+                    'fa_env',
+                    sanitize_text_field(wp_unslash($_POST['fa_env'] ?? 'prod'))
+                );
+                $updated = true;
+            }
         }
 
         $apiKey = (string) get_option('fa_api_key', '');
         $env = (string) get_option('fa_env', 'prod');
 
-        Page::make('FA Settings')->render(function () use ($apiKey, $env) {
+        Page::make('FA Settings')->render(function () use ($apiKey, $env, $updated) {
+            if ($updated) {
+                echo Notice::make('Settings saved.', 'success')->dismissible();
+            }
+
             echo '<form method="post">';
             wp_nonce_field('fa_save', 'fa_nonce');
             echo Metabox::make('API Settings')->content(

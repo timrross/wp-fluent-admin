@@ -74,7 +74,14 @@ echo $page;
 
 ```php
 add_menu_page('My Plugin', 'My Plugin', 'manage_options', 'my-plugin', function () {
-    Page::make('My Plugin')->icon('dashicons-admin-tools')->render(function () {
+    $updated = isset($_GET['settings-updated'])
+        && 'true' === sanitize_text_field(wp_unslash($_GET['settings-updated']));
+
+    Page::make('My Plugin')->icon('dashicons-admin-tools')->render(function () use ($updated) {
+        if ($updated) {
+            echo \FluentAdmin\Components\Notice::make('Settings saved.', 'success')->dismissible();
+        }
+
         echo '<p>Welcome.</p>';
     });
 });

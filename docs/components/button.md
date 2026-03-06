@@ -40,6 +40,18 @@ echo Button::make('Save Settings')->primary()->submit();
 echo Button::make('Docs', 'https://example.com/docs')->newTab()->disabled();
 ```
 
+### Production pattern for unavailable actions
+
+For submit buttons, `->disabled()` is enough. For link buttons, prefer not rendering a live destination when the action is unavailable.
+
+```php
+if ($canRunSync) {
+    echo Button::make('Run Sync', admin_url('admin.php?page=my-plugin-sync'))->primary();
+} else {
+    echo Button::make('Run Sync')->primary()->submit()->disabled();
+}
+```
+
 ## API Reference
 
 ### Constructor
@@ -58,7 +70,7 @@ echo Button::make('Docs', 'https://example.com/docs')->newTab()->disabled();
 | `->secondary()` | `static` | Remove primary state |
 | `->small()` | `static` | Add `button-small` class |
 | `->hero()` | `static` | Add `button-hero` class |
-| `->submit()` | `static` | Render `<button type="submit">` |
+| `->submit()` | `static` | Render `<button type="submit">` and ignore the link URL |
 | `->disabled()` | `static` | Add `disabled` attribute. On `<button>` this is standard HTML. On `<a>` link buttons it is a non-standard attribute — WordPress admin CSS applies the visual disabled style, but it does not prevent click navigation. |
 | `->newTab()` | `static` | Add `target="_blank" rel="noopener noreferrer"` |
 | `->render()` | `string` | Return rendered HTML |

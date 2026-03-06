@@ -44,6 +44,7 @@ echo ListTable::make()
 ### Bulk actions
 
 Bulk actions require each row to include an `id` key — this is used as the checkbox value submitted as `bulk-ids[]`.
+The surrounding `<form>` still needs to verify a nonce and process `action` / `action2` submissions.
 
 ```php
 echo ListTable::make()
@@ -54,6 +55,8 @@ echo ListTable::make()
 ```
 
 ### Search box
+
+`->search()` renders the standard `WP_List_Table` search UI. If you want actual filtering, read the submitted search term in your surrounding page/controller and apply it in your data layer before returning rows.
 
 ```php
 echo ListTable::make()
@@ -66,14 +69,23 @@ echo ListTable::make()
 ### Row actions callback
 
 Action markup is sanitized through `wp_kses_post` in WordPress — only post-safe HTML is preserved. For edit/delete links, plain `<a>` tags work as shown.
+Row actions are appended to the table's primary column, which is usually the first non-checkbox column.
 
 ```php
 echo ListTable::make()
     ->columns(['email' => 'Email'])
     ->rowActions(function (array $item): array {
+        $id = (int) ($item['id'] ?? 0);
+
         return [
-            'edit' => '<a href="' . admin_url('admin.php?page=my-plugin-edit&id=' . (int) $item['id']) . '">Edit</a>',
-            'delete' => '<a href="' . admin_url('admin.php?page=my-plugin-delete&id=' . (int) $item['id']) . '">Delete</a>',
+            'edit' => sprintf(
+                '<a href="%s">Edit</a>',
+                esc_url(admin_url('admin.php?page=my-plugin-edit&id=' . $id))
+            ),
+            'delete' => sprintf(
+                '<a href="%s">Delete</a>',
+                esc_url(admin_url('admin.php?page=my-plugin-delete&id=' . $id))
+            ),
         ];
     })
     ->count($countCb)
@@ -135,6 +147,21 @@ No constructor parameters.
 echo ListTable::make()
     ->columns(['email' => 'Email', 'created_at' => 'Created'])
     ->sortable(['email', 'created_at'])
+    ->rowActions(function (array $item): array {
+        $id = (int) ($item['id'] ?? 0);
+
+        return [
+            'delete' => sprintf(
+                '<a href="%s">Delete</a>',
+                esc_url(
+                    wp_nonce_url(
+                        admin_url('admin.php?page=my-plugin-users&action=delete&id=' . $id),
+                        'delete_user_' . $id
+                    )
+                )
+            ),
+        ];
+    })
     ->count(function (): int {
         return 120;
     })

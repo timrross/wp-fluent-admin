@@ -7,7 +7,11 @@ Build native-looking admin UI without hand-coding HTML boilerplate.
 ```php [Before — 47 lines of boilerplate]
 <div class="wrap">
     <h1>My Plugin</h1>
-    <?php if (isset($_GET['settings-updated'])): ?>
+    <?php
+    $updated = isset($_GET['settings-updated'])
+        && 'true' === sanitize_text_field(wp_unslash($_GET['settings-updated']));
+    if ($updated):
+    ?>
         <div class="notice notice-success is-dismissible">
             <p>Settings saved.</p>
         </div>
@@ -34,7 +38,10 @@ Build native-looking admin UI without hand-coding HTML boilerplate.
 use FluentAdmin\Components\{Page, Notice, Metabox, FormTable};
 
 Page::make('My Plugin')->render(function () {
-    if (isset($_GET['settings-updated'])) {
+    $updated = isset($_GET['settings-updated'])
+        && 'true' === sanitize_text_field(wp_unslash($_GET['settings-updated']));
+
+    if ($updated) {
         echo Notice::make('Settings saved.', 'success')->dismissible();
     }
 

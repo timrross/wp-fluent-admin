@@ -23,6 +23,7 @@ Resolves child content in this order:
 ### `protected function resolveRawContent(string $html): string`
 
 Returns trusted HTML without escaping.
+This is an internal helper for custom subclasses; the public API does not currently expose a raw-HTML setter.
 
 ### `public function __call(string $name, array $args): static`
 

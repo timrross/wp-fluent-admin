@@ -79,6 +79,58 @@ document.querySelectorAll('.fluent-admin-media-field').forEach(function (wrapper
 });
 ```
 
+## Production example
+
+```php
+use FluentAdmin\Components\{Page, Metabox, FormTable, Button, Notice};
+use FluentAdmin\Fields\MediaField;
+
+add_action('admin_enqueue_scripts', function (string $hook): void {
+    if ('toplevel_page_fa-branding' !== $hook) {
+        return;
+    }
+
+    MediaField::enqueueAssets();
+    wp_enqueue_script(
+        'fa-branding-media',
+        plugins_url('branding-media.js', __FILE__),
+        ['jquery'],
+        '1.0.0',
+        true
+    );
+});
+
+function fa_render_branding_page(): void
+{
+    $updated = isset($_GET['settings-updated'])
+        && 'true' === sanitize_text_field(wp_unslash($_GET['settings-updated']));
+
+    $settings = (array) get_option('fa_branding', ['logo_id' => 0]);
+
+    Page::make('Branding')->render(function () use ($updated, $settings) {
+        if ($updated) {
+            echo Notice::make('Branding updated.', 'success')->dismissible();
+        }
+
+        echo '<form method="post" action="options.php">';
+        settings_fields('fa_branding_group');
+
+        echo Metabox::make('Brand Assets')->content(
+            FormTable::make()->field(
+                MediaField::make('fa_branding[logo_id]', 'Logo')
+                    ->value((int) ($settings['logo_id'] ?? 0))
+                    ->description('Recommended size: 512x512 pixels.')
+            )
+        );
+
+        echo Button::make('Save Branding')->primary()->submit();
+        echo '</form>';
+    });
+}
+```
+
+The current `MediaField` implementation renders `value()` and `description()`. It does not currently use `placeholder()`, `required()`, or `disabled()`.
+
 ## API Reference
 
 ### Constructor
@@ -93,7 +145,7 @@ document.querySelectorAll('.fluent-admin-media-field').forEach(function (wrapper
 | Method | Returns | Description |
 |--------|---------|-------------|
 | `::make(string $name, string $label = '')` | `static` | Factory constructor |
-| `::enqueueAssets()` | `void` | Call `wp_enqueue_media()` |
+| `::enqueueAssets()` | `void` | Call `wp_enqueue_media()`; you still need your own `wp.media()` button handlers |
 | `->value(mixed $value)` | `static` | Set attachment ID |
 | `->description(string $description)` | `static` | Add description paragraph |
 | `->render()` | `string` | Return rendered HTML |

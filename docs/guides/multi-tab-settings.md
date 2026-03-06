@@ -29,29 +29,52 @@ add_action('admin_menu', function () {
 ```php
 function fa_handle_multi_settings_save(): void
 {
-    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    if ('POST' !== ($_SERVER['REQUEST_METHOD'] ?? '')) {
         return;
     }
 
-    if (!isset($_POST['fa_multi_nonce']) || !wp_verify_nonce(sanitize_text_field((string) $_POST['fa_multi_nonce']), 'fa_multi_save')) {
+    if (!isset($_POST['fa_multi_nonce'])) {
         return;
     }
+
+    $nonce = sanitize_text_field(wp_unslash($_POST['fa_multi_nonce']));
+
+    if (!wp_verify_nonce($nonce, 'fa_multi_save')) {
+        return;
+    }
+
+    $generalPost = isset($_POST['fa_general']) && is_array($_POST['fa_general'])
+        ? wp_unslash($_POST['fa_general'])
+        : [];
+    $apiPost = isset($_POST['fa_api']) && is_array($_POST['fa_api'])
+        ? wp_unslash($_POST['fa_api'])
+        : [];
+    $notificationsPost = isset($_POST['fa_notifications']) && is_array($_POST['fa_notifications'])
+        ? wp_unslash($_POST['fa_notifications'])
+        : [];
+    $currentTab = isset($_GET['tab']) ? sanitize_title(wp_unslash($_GET['tab'])) : '';
 
     update_option('fa_general', [
-        'site_label' => sanitize_text_field((string) ($_POST['fa_general']['site_label'] ?? '')),
-        'timezone' => sanitize_text_field((string) ($_POST['fa_general']['timezone'] ?? 'UTC')),
+        'site_label' => sanitize_text_field((string) ($generalPost['site_label'] ?? '')),
+        'timezone' => sanitize_text_field((string) ($generalPost['timezone'] ?? 'UTC')),
     ]);
 
     update_option('fa_api', [
-        'api_key' => sanitize_text_field((string) ($_POST['fa_api']['api_key'] ?? '')),
-        'mode' => sanitize_text_field((string) ($_POST['fa_api']['mode'] ?? 'test')),
+        'api_key' => sanitize_text_field((string) ($apiPost['api_key'] ?? '')),
+        'mode' => sanitize_text_field((string) ($apiPost['mode'] ?? 'test')),
     ]);
 
     update_option('fa_notifications', [
-        'email_enabled' => !empty($_POST['fa_notifications']['email_enabled']) ? '1' : '0',
+        'email_enabled' => !empty($notificationsPost['email_enabled']) ? '1' : '0',
     ]);
 
-    wp_safe_redirect(admin_url('admin.php?page=fa-multi-settings&settings-updated=true'));
+    $redirectUrl = admin_url('admin.php?page=fa-multi-settings&settings-updated=true');
+
+    if ('' !== $currentTab) {
+        $redirectUrl = add_query_arg('tab', $currentTab, $redirectUrl);
+    }
+
+    wp_safe_redirect($redirectUrl);
     exit;
 }
 ```
@@ -68,9 +91,11 @@ function fa_render_multi_settings(): void
     $general = (array) get_option('fa_general', ['site_label' => '', 'timezone' => 'UTC']);
     $api = (array) get_option('fa_api', ['api_key' => '', 'mode' => 'test']);
     $notifications = (array) get_option('fa_notifications', ['email_enabled' => '0']);
+    $updated = isset($_GET['settings-updated'])
+        && 'true' === sanitize_text_field(wp_unslash($_GET['settings-updated']));
 
-    Page::make('Multi-Tab Settings')->render(function () use ($general, $api, $notifications) {
-        if (isset($_GET['settings-updated']) && $_GET['settings-updated'] === 'true') {
+    Page::make('Multi-Tab Settings')->render(function () use ($general, $api, $notifications, $updated) {
+        if ($updated) {
             echo Notice::make('Settings saved.', 'success')->dismissible();
         }
 
@@ -116,29 +141,52 @@ add_action('admin_menu', function () {
 
 function fa_handle_multi_settings_save(): void
 {
-    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    if ('POST' !== ($_SERVER['REQUEST_METHOD'] ?? '')) {
         return;
     }
 
-    if (!isset($_POST['fa_multi_nonce']) || !wp_verify_nonce(sanitize_text_field((string) $_POST['fa_multi_nonce']), 'fa_multi_save')) {
+    if (!isset($_POST['fa_multi_nonce'])) {
         return;
     }
+
+    $nonce = sanitize_text_field(wp_unslash($_POST['fa_multi_nonce']));
+
+    if (!wp_verify_nonce($nonce, 'fa_multi_save')) {
+        return;
+    }
+
+    $generalPost = isset($_POST['fa_general']) && is_array($_POST['fa_general'])
+        ? wp_unslash($_POST['fa_general'])
+        : [];
+    $apiPost = isset($_POST['fa_api']) && is_array($_POST['fa_api'])
+        ? wp_unslash($_POST['fa_api'])
+        : [];
+    $notificationsPost = isset($_POST['fa_notifications']) && is_array($_POST['fa_notifications'])
+        ? wp_unslash($_POST['fa_notifications'])
+        : [];
+    $currentTab = isset($_GET['tab']) ? sanitize_title(wp_unslash($_GET['tab'])) : '';
 
     update_option('fa_general', [
-        'site_label' => sanitize_text_field((string) ($_POST['fa_general']['site_label'] ?? '')),
-        'timezone' => sanitize_text_field((string) ($_POST['fa_general']['timezone'] ?? 'UTC')),
+        'site_label' => sanitize_text_field((string) ($generalPost['site_label'] ?? '')),
+        'timezone' => sanitize_text_field((string) ($generalPost['timezone'] ?? 'UTC')),
     ]);
 
     update_option('fa_api', [
-        'api_key' => sanitize_text_field((string) ($_POST['fa_api']['api_key'] ?? '')),
-        'mode' => sanitize_text_field((string) ($_POST['fa_api']['mode'] ?? 'test')),
+        'api_key' => sanitize_text_field((string) ($apiPost['api_key'] ?? '')),
+        'mode' => sanitize_text_field((string) ($apiPost['mode'] ?? 'test')),
     ]);
 
     update_option('fa_notifications', [
-        'email_enabled' => !empty($_POST['fa_notifications']['email_enabled']) ? '1' : '0',
+        'email_enabled' => !empty($notificationsPost['email_enabled']) ? '1' : '0',
     ]);
 
-    wp_safe_redirect(admin_url('admin.php?page=fa-multi-settings&settings-updated=true'));
+    $redirectUrl = admin_url('admin.php?page=fa-multi-settings&settings-updated=true');
+
+    if ('' !== $currentTab) {
+        $redirectUrl = add_query_arg('tab', $currentTab, $redirectUrl);
+    }
+
+    wp_safe_redirect($redirectUrl);
     exit;
 }
 
@@ -149,9 +197,11 @@ function fa_render_multi_settings(): void
     $general = (array) get_option('fa_general', ['site_label' => '', 'timezone' => 'UTC']);
     $api = (array) get_option('fa_api', ['api_key' => '', 'mode' => 'test']);
     $notifications = (array) get_option('fa_notifications', ['email_enabled' => '0']);
+    $updated = isset($_GET['settings-updated'])
+        && 'true' === sanitize_text_field(wp_unslash($_GET['settings-updated']));
 
-    Page::make('Multi-Tab Settings')->render(function () use ($general, $api, $notifications) {
-        if (isset($_GET['settings-updated']) && $_GET['settings-updated'] === 'true') {
+    Page::make('Multi-Tab Settings')->render(function () use ($general, $api, $notifications, $updated) {
+        if ($updated) {
             echo Notice::make('Settings saved.', 'success')->dismissible();
         }
 

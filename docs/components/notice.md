@@ -70,7 +70,10 @@ echo Notice::make('Neutral', 'default');
 ### Show on settings update
 
 ```php
-if (isset($_GET['settings-updated'])) {
+$updated = isset($_GET['settings-updated'])
+    && 'true' === sanitize_text_field(wp_unslash($_GET['settings-updated']));
+
+if ($updated) {
     echo Notice::make('Settings saved.', 'success')->dismissible();
 }
 ```
