@@ -2,7 +2,7 @@
 
 ## Requirements
 
-- PHP 7.4 or higher
+- PHP 8.0 or higher
 - WordPress 6.0 or higher
 - Composer
 

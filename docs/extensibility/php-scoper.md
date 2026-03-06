@@ -9,7 +9,7 @@ composer require --dev bamarni/composer-bin-plugin
 composer bin scoper require --dev humbug/php-scoper:^0.18
 ```
 
-This keeps PHP-Scoper isolated from the main project dependencies, so your test matrix can still install on PHP 7.4/8.0 while scoping remains available on a newer local PHP runtime.
+This keeps PHP-Scoper isolated from the main project dependencies, so your test matrix can still install on the library's supported PHP versions while scoping remains available on a newer local PHP runtime.
 
 ## 2. Add a scoper config
 
@@ -65,4 +65,4 @@ use MyPluginScoped\FluentAdmin\Components\Page;
 
 - Scope during release/build, not during local source development.
 - Keep tests running against unscoped source for simpler debugging.
-- PHP-Scoper itself requires a newer PHP version than the library runtime target. Run the scoping step on PHP 8.1+.
+- PHP-Scoper itself requires a newer PHP version than the library runtime target. Run the scoping step on PHP 8.1+ even though the library itself supports PHP 8.0+.

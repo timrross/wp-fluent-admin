@@ -22,7 +22,7 @@ These apply to every task in this project. Do not deviate.
 
 ### PHP Standards
 
-- PHP 7.4 minimum. Use typed properties, union types only where 7.4 supports them. No enums (8.1+), no readonly (8.1+), no intersection types (8.1+), no `match` (8.0+).
+- PHP 8.0 minimum. Use typed properties and native `static` return types where appropriate. No enums (8.1+), no readonly (8.1+), no intersection types (8.1+).
 - Follow PSR-12 coding style.
 - Every public method must have a `@return` docblock. Use `@param` for non-obvious parameters.
 - Strict types declaration in every file: `declare(strict_types=1);`
@@ -46,7 +46,7 @@ These apply to every task in this project. Do not deviate.
 
 ### Testing
 
-- Framework: PHPUnit 9.x (for PHP 7.4 compat).
+- Framework: PHPUnit 9.x.
 - Unit tests go in `tests/Unit/`, mirror `src/` structure: `tests/Unit/Components/NoticeTest.php` tests `src/Components/Notice.php`.
 - Unit tests must NOT require WordPress. Stub or fallback any WP functions (see `Support\Escape`).
 - Integration tests go in `tests/Integration/`. These require a WP environment (wp-env or similar). Not required for the initial build — flag with `@group integration`.
@@ -212,7 +212,7 @@ Work through these in order. Each task is a single commit (or small group of com
 - [x] **0.2** Create `phpunit.xml` targeting `tests/Unit` directory with bootstrap `tests/bootstrap.php`.
 - [x] **0.3** Create `tests/bootstrap.php`. It must: require Composer autoload, define stub WP functions (`esc_html`, `esc_attr`, `esc_url`, `esc_textarea`, `sanitize_text_field`, `sanitize_title`, `wp_kses`, `wp_kses_post`, `apply_filters`, `add_query_arg`, `absint`, `__`, `esc_sql`) if they don't already exist. Stub `esc_html` as `htmlspecialchars($s, ENT_QUOTES, 'UTF-8')`. Stub `esc_attr` identically. Stub `apply_filters` to return the first non-tag argument. Stub `__` to return its first argument.
 - [x] **0.4** Create `.gitignore` ignoring `vendor/`, `.phpunit.result.cache`, `composer.lock`.
-- [x] **0.5** Create `.github/workflows/ci.yml`: matrix PHP 7.4, 8.0, 8.1, 8.2, 8.3. Steps: checkout, setup-php, `composer install`, `composer test`.
+- [x] **0.5** Create `.github/workflows/ci.yml`: matrix PHP 8.0, 8.1, 8.2, 8.3. Steps: checkout, setup-php, `composer install`, `composer test`.
 - [x] **0.6** Add `scripts` section to `composer.json`: `"test": "phpunit"`, `"test:coverage": "phpunit --coverage-text"`.
 - [x] **0.7** Run `composer install` and `composer test` to verify empty test suite passes. Commit: `chore: scaffold project`.
 
@@ -310,7 +310,7 @@ The canonical documentation strategy is in `docs-strategy.md`. Follow it precise
 
 ### Phase 10 — Getting Started Docs
 
-- [x] **10.1** Create `docs/getting-started/installation.md`. Cover: requirements (PHP 7.4+, WP 6.0+, Composer), `composer require`, loading the autoloader in a plugin, link to PHP-Scoper guide for conflict avoidance.
+- [x] **10.1** Create `docs/getting-started/installation.md`. Cover: requirements (PHP 8.0+, WP 6.0+, Composer), `composer require`, loading the autoloader in a plugin, link to PHP-Scoper guide for conflict avoidance.
 - [x] **10.2** Create `docs/getting-started/quick-start.md`. Three progressive examples: (1) Hello World — Page + Notice + Button in 5 lines, (2) Settings Form — Page + Metabox + FormTable saving to wp_options in 15 lines, (3) Data Listing — Page + Tabs + ListTable with sortable columns in 25 lines. Each example is a complete `add_menu_page` callback — copy-pasteable.
 - [x] **10.3** Create `docs/getting-started/concepts.md`. Four concepts in under 200 words total: components are echo-able, fluent chaining, composable children, no CSS/JS shipped. No code block longer than 6 lines.
 - [x] **10.4** Commit: `docs: getting started — installation, quick start, concepts`.
@@ -375,7 +375,7 @@ Guides show multiple components working together in real-world scenarios. Each g
 
 ### Phase 17 — CI & Release Prep
 
-- [x] **17.1** Verify CI workflow runs on push and PR to `main`. Matrix: PHP 7.4, 8.0, 8.1, 8.2, 8.3.
+- [x] **17.1** Verify CI workflow runs on push and PR to `main`. Matrix: PHP 8.0, 8.1, 8.2, 8.3.
 - [x] **17.2** Add a `phpcs` step to CI using `squizlabs/php_codesniffer` with PSR-12 ruleset. Add composer script `"lint": "phpcs src/ tests/ --standard=PSR12"`. Fix any violations.
 - [x] **17.3** Tag `v0.1.0`. Update `composer.json` with Packagist metadata: description, keywords (`wordpress`, `admin`, `ui`, `fluent`, `component`), authors, homepage (GitHub URL).
 - [x] **17.4** Commit: `chore: CI finalisation and v0.1.0 release prep`.

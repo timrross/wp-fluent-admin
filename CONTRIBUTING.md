@@ -15,7 +15,7 @@ For docs work, run `cd docs && npm run docs:dev` for local preview and `cd docs 
 
 ## Coding Standards
 
-- **PHP 7.4+** — no `match`, `readonly`, `enum`, intersection types, named arguments, or fibers.
+- **PHP 8.0+** — no `readonly`, `enum`, intersection types, or fibers.
 - **PSR-12** — run `composer lint` to check.
 - **Strict types** — every PHP file must start with `declare(strict_types=1);`.
 - **Escape all output** — use `Escape::html()`, `Escape::attr()`, `Escape::url()`. Never call WP escaping functions directly from component code.

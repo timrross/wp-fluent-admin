@@ -77,7 +77,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 No configuration, no service providers, no hooks to register.
 
-**Requirements:** PHP 7.4+, WordPress 6.0+, Composer.
+**Requirements:** PHP 8.0+, WordPress 6.0+, Composer.
 
 ---
 
@@ -279,7 +279,7 @@ If multiple plugins might use wp-fluent-admin, prefix the namespace to avoid con
 
 ## Compatibility
 
-- **PHP:** 7.4, 8.0, 8.1, 8.2, 8.3
+- **PHP:** 8.0, 8.1, 8.2, 8.3
 - **WordPress:** 6.0+
 - **No JavaScript required** — pure PHP rendering
 - **No CSS shipped** — relies on wp-admin's existing styles
