@@ -6,4 +6,5 @@ docs/.vitepress/cache/
 docs/.vitepress/dist/
 build/
 build-scoped-test/
+vendor-bin/*/vendor/
 .claude/

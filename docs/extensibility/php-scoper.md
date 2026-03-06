@@ -5,8 +5,11 @@ Use PHP-Scoper to prefix `FluentAdmin\` when bundling your plugin so your depend
 ## 1. Install PHP-Scoper
 
 ```bash
-composer require --dev humbug/php-scoper
+composer require --dev bamarni/composer-bin-plugin
+composer bin scoper require --dev humbug/php-scoper:^0.18
 ```
+
+This keeps PHP-Scoper isolated from the main project dependencies, so your test matrix can still install on PHP 7.4/8.0 while scoping remains available on a newer local PHP runtime.
 
 ## 2. Add a scoper config
 
@@ -29,10 +32,12 @@ return [
 ## 3. Build a prefixed copy
 
 ```bash
-vendor/bin/php-scoper add-prefix \
+vendor-bin/scoper/vendor/bin/php-scoper add-prefix \
   --config=scoper.inc.php \
   --output-dir=build/scoped
 ```
+
+If you are working in this repository, `composer scope` will install the isolated tool and run the same command for you.
 
 ## 4. Update autoload usage
 
@@ -60,3 +65,4 @@ use MyPluginScoped\FluentAdmin\Components\Page;
 
 - Scope during release/build, not during local source development.
 - Keep tests running against unscoped source for simpler debugging.
+- PHP-Scoper itself requires a newer PHP version than the library runtime target. Run the scoping step on PHP 8.1+.
