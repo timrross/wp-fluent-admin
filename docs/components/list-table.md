@@ -43,6 +43,8 @@ echo ListTable::make()
 
 ### Bulk actions
 
+Bulk actions require each row to include an `id` key — this is used as the checkbox value submitted as `bulk-ids[]`.
+
 ```php
 echo ListTable::make()
     ->columns(['email' => 'Email'])
@@ -63,13 +65,15 @@ echo ListTable::make()
 
 ### Row actions callback
 
+Action markup is sanitized through `wp_kses_post` in WordPress — only post-safe HTML is preserved. For edit/delete links, plain `<a>` tags work as shown.
+
 ```php
 echo ListTable::make()
     ->columns(['email' => 'Email'])
     ->rowActions(function (array $item): array {
         return [
-            'edit' => '<a href="admin.php?page=my-plugin-edit&id=' . (int) $item['id'] . '">Edit</a>',
-            'delete' => '<a href="admin.php?page=my-plugin-delete&id=' . (int) $item['id'] . '">Delete</a>',
+            'edit' => '<a href="' . admin_url('admin.php?page=my-plugin-edit&id=' . (int) $item['id']) . '">Edit</a>',
+            'delete' => '<a href="' . admin_url('admin.php?page=my-plugin-delete&id=' . (int) $item['id']) . '">Delete</a>',
         ];
     })
     ->count($countCb)

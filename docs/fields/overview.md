@@ -15,8 +15,8 @@ All fields inherit these methods from `Field`:
 
 - `->value(mixed $value)`
 - `->description(string $description)`
-- `->placeholder(string $placeholder)`
-- `->required()`
+- `->placeholder(string $placeholder)` — text, textarea, password only
+- `->required()` — text, textarea, password, select, color only
 - `->disabled()`
 - `->getName()`
 - `->getLabel()`

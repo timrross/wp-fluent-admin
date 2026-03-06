@@ -59,7 +59,7 @@ echo Button::make('Docs', 'https://example.com/docs')->newTab()->disabled();
 | `->small()` | `static` | Add `button-small` class |
 | `->hero()` | `static` | Add `button-hero` class |
 | `->submit()` | `static` | Render `<button type="submit">` |
-| `->disabled()` | `static` | Add `disabled` attribute |
+| `->disabled()` | `static` | Add `disabled` attribute. On `<button>` this is standard HTML. On `<a>` link buttons it is a non-standard attribute — WordPress admin CSS applies the visual disabled style, but it does not prevent click navigation. |
 | `->newTab()` | `static` | Add `target="_blank" rel="noopener noreferrer"` |
 | `->render()` | `string` | Return rendered HTML |
 

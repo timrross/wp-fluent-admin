@@ -49,6 +49,36 @@ echo MediaField::make('logo_id', 'Logo')
 
 Call `MediaField::enqueueAssets()` during `admin_enqueue_scripts` before rendering the field.
 
+`enqueueAssets()` loads the WordPress media library framework (`wp_enqueue_media()`), but the "Select Image" and "Remove" buttons require custom JavaScript to function. Add a handler using `wp.media()`:
+
+```js
+document.querySelectorAll('.fluent-admin-media-field').forEach(function (wrapper) {
+    var input   = wrapper.querySelector('input[type="hidden"]');
+    var preview = wrapper.querySelector('.fluent-admin-media-preview img');
+    var frame;
+
+    wrapper.querySelector('.fluent-admin-media-select').addEventListener('click', function () {
+        if (frame) { frame.open(); return; }
+        frame = wp.media({ title: 'Select Image', button: { text: 'Use this image' }, multiple: false });
+        frame.on('select', function () {
+            var attachment = frame.state().get('selection').first().toJSON();
+            input.value = attachment.id;
+            preview.src = attachment.sizes.thumbnail ? attachment.sizes.thumbnail.url : attachment.url;
+            preview.parentElement.style.display = '';
+            wrapper.querySelector('.fluent-admin-media-remove').style.display = '';
+        });
+        frame.open();
+    });
+
+    wrapper.querySelector('.fluent-admin-media-remove').addEventListener('click', function () {
+        input.value = '';
+        preview.src = '';
+        preview.parentElement.style.display = 'none';
+        this.style.display = 'none';
+    });
+});
+```
+
 ## API Reference
 
 ### Constructor

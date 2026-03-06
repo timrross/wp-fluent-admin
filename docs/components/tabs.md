@@ -24,7 +24,9 @@ echo Tabs::make()
 
 ## Variants
 
-### Explicit default active tab
+### Fallback tab when no URL state
+
+`->active()` sets which tab is shown when no `?tab=` query parameter is present in the URL. Once a user clicks a tab, the URL takes precedence and `->active()` has no effect.
 
 ```php
 echo Tabs::make()
