@@ -286,6 +286,28 @@ If multiple plugins might use wp-fluent-admin, prefix the namespace to avoid con
 
 ---
 
+## Documentation
+
+The VitePress documentation site lives in `docs/`.
+
+Local development:
+
+```bash
+cd docs
+npm run docs:dev
+```
+
+Production build:
+
+```bash
+cd docs
+npm run docs:build
+```
+
+GitHub Pages deployment is handled by [docs.yml](.github/workflows/docs.yml) on pushes to `main` that change `docs/**`.
+
+---
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md).

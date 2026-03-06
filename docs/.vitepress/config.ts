@@ -1,6 +1,19 @@
-export default {
+import { defineConfig } from 'vitepress';
+
+const repository = process.env.GITHUB_REPOSITORY?.split('/')[1] ?? '';
+const isPagesBuild = process.env.GITHUB_ACTIONS === 'true';
+const isUserOrOrgSite = repository.endsWith('.github.io');
+
+const base = isPagesBuild
+  ? (isUserOrOrgSite || repository === '' ? '/' : `/${repository}/`)
+  : '/';
+
+export default defineConfig({
   title: 'wp-fluent-admin',
   description: 'A fluent PHP component library for WordPress admin pages.',
+  base,
+  cleanUrls: true,
+  lastUpdated: true,
   themeConfig: {
     search: {
       provider: 'local',
@@ -96,5 +109,8 @@ export default {
         },
       ],
     },
+    socialLinks: [
+      { icon: 'github', link: 'https://github.com/timrross/wp-fluent-admin' },
+    ],
   },
-};
+});

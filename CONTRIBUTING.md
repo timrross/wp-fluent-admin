@@ -7,9 +7,11 @@ git clone https://github.com/wp-fluent-admin/wp-fluent-admin.git
 cd wp-fluent-admin
 composer install
 composer test
+cd docs && npm ci
 ```
 
 Tests should pass before you start.
+For docs work, run `cd docs && npm run docs:dev` for local preview and `cd docs && npm run docs:build` before opening a PR.
 
 ## Coding Standards
 
