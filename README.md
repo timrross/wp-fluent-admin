@@ -3,6 +3,8 @@
 A fluent PHP component library for WordPress admin pages.
 Build native-looking admin UI without hand-coding HTML boilerplate.
 
+Documentation can be found here: <a href="https://timrross.github.io/wp-fluent-admin/">WP Fluent Admin docs</a>.
+
 ---
 
 ## Before and After
