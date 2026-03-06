@@ -10,9 +10,11 @@ use FluentAdmin\Support\Escape;
 /**
  * Renders a WordPress postbox (collapsible panel).
  *
- * Output: <div class="postbox [closed]" id="{id}">
- *             <div class="postbox-header"><h2>{title}</h2></div>
- *             <div class="inside">{content}</div>
+ * Output: <div class="metabox-holder">
+ *             <div class="postbox [closed]" id="{id}">
+ *                 <div class="postbox-header"><h2>{title}</h2></div>
+ *                 <div class="inside">{content}</div>
+ *             </div>
  *         </div>
  */
 class Metabox extends Component
@@ -87,9 +89,11 @@ class Metabox extends Component
         $title = Escape::html($this->title);
         $content = $this->contentValue !== null ? $this->resolveContent($this->contentValue) : '';
 
-        return '<div class="' . $class . '"' . $idAttr . '>'
+        return '<div class="metabox-holder">'
+            . '<div class="' . $class . '"' . $idAttr . '>'
             . '<div class="postbox-header"><h2 class="hndle">' . $title . '</h2></div>'
             . '<div class="inside">' . $content . '</div>'
+            . '</div>'
             . '</div>';
     }
 }

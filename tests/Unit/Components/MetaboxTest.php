@@ -73,6 +73,13 @@ class MetaboxTest extends TestCase
         $this->assertStringContainsString('class="postbox"', $html);
     }
 
+    public function testWrapsPostboxInMetaboxHolderForCoreHeadingStyles(): void
+    {
+        $html = Metabox::make('Box')->render();
+        $this->assertStringContainsString('<div class="metabox-holder"><div class="postbox"', $html);
+        $this->assertStringContainsString('<h2 class="hndle">', $html);
+    }
+
     public function testStringContentIsEscaped(): void
     {
         $html = Metabox::make('Box')->content('<script>xss</script>')->render();
